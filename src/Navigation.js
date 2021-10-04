@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -9,6 +9,7 @@ import App from "./App";
 import WeatherTomorrow from "./WeatherTomorrow";
 
 export default function Navigation() {
+  const [currentCityId, setCurrentCityId] = useState(625144);
   return (
     <Router>
       <div>
@@ -23,11 +24,11 @@ export default function Navigation() {
           </ul>
         </nav>
         <Switch>
-          <Route path="/">
-            <App />
+          <Route path="/" exact={true}>
+            <App setCityId={setCurrentCityId}  cityId={currentCityId}/>
           </Route>
           <Route path="/tomorrow">
-            <WeatherTomorrow />
+            <WeatherTomorrow cityId={currentCityId}/>
           </Route>
         </Switch>
       </div>
