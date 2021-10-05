@@ -6,7 +6,6 @@ import {
   Link
 } from "react-router-dom";
 import App from "./App";
-import WeatherTomorrow from "./WeatherTomorrow";
 import Weather from "./Weather";
 
 export default function Navigation() {

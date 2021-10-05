@@ -9,7 +9,7 @@ const App = ({cityId, setCityId, setCoord}) => {
     {key: "Киеве", value: 703448, coord: {lat: 50.4333, lon: 30.5167}},
   ];
   const [value, setValue] = useState(cityMap.find(x => x.value === cityId).key);
-  const [currectTemp, setCurrentTemp] = useState(null);
+  const [currentTemp, setCurrentTemp] = useState(null);
 
   const getSelectedCityId = (value) => {
     return cityMap.find(x => x.key === value).value;
@@ -52,7 +52,7 @@ const App = ({cityId, setCityId, setCoord}) => {
         </select>
         </label>
         <h1 className="app__title">Погода в {value}:</h1>
-        <span className="temperature">{currectTemp} градусов</span>
+        <span className="temperature">{currentTemp} градусов</span>
       </div>
     </div>
   );

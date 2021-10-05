@@ -1,12 +1,12 @@
 import React from "react";
 import WeatherThteeDays from "./WeatherThreeDays";
-import WeatherTomorrow from "./WeatherTomorrow";
+import WeatherToday from "./WeatherToday";
 
-const Weather = () => {
+const Weather = ({ cityId, coord }) => {
     return (
         <div className="weather">
-            <WeatherTomorrow />
-            <WeatherThteeDays />
+            <WeatherToday cityId={cityId} coord={coord} />
+            <WeatherThteeDays cityId={cityId} coord={coord}/>
         </div>
     )
 }
