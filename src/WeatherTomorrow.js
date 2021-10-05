@@ -1,84 +1,117 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+} from "recharts";
 
 const data = [
-    {
-      name: "Page A",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400
-    },
-    {
-      name: "Page B",
-      uv: 3000,
-      pv: 1398,
-      amt: 2210
-    },
-    {
-      name: "Page C",
-      uv: 2000,
-      pv: 9800,
-      amt: 2290
-    },
-    {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000
-    },
-    {
-      name: "Page E",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181
-    },
-    {
-      name: "Page F",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500
-    },
-    {
-      name: "Page G",
-      uv: 3490,
-      pv: 4300,
-      amt: 2100
-    }
-  ];
+  {
+    name: "Page A",
+    uv: 4000,
+    pv: 2400,
+    amt: 2400,
+  },
+  {
+    name: "Page B",
+    uv: 3000,
+    pv: 1398,
+    amt: 2210,
+  },
+  {
+    name: "Page C",
+    uv: 2000,
+    pv: 9800,
+    amt: 2290,
+  },
+  {
+    name: "Page D",
+    uv: 2780,
+    pv: 3908,
+    amt: 2000,
+  },
+  {
+    name: "Page E",
+    uv: 1890,
+    pv: 4800,
+    amt: 2181,
+  },
+  {
+    name: "Page F",
+    uv: 2390,
+    pv: 3800,
+    amt: 2500,
+  },
+  {
+    name: "Page G",
+    uv: 3490,
+    pv: 4300,
+    amt: 2100,
+  },
+];
 
-export default function Component ({cityId}) {
+export default function WeatherTomorrow({ cityId, coord }) {
   const demoUrl = `https://api.openweathermap.org/data/2.5/weather?id=${cityId}&appid=ef4f4c72ceb5584c55e8641bb4f3f63e`;
-  const [temp, setTemp] = useState([]);
+  const [data, setData] = useState([]);
+
+  function mapToData(list) {
+    return list.map((x) => {
+      return {
+        name: new Date(x.dt * 1000),
+        temp: x.temp,
+      };
+    });
+  }
+
+  function getToday(data) {
+    return data.filter((x) => x.name.getDate() === new Date().getDate());
+  }
+
+  function mapResultName(data) {
+    return data.map((x) => {
+      return {
+        name: x.name.toLocaleTimeString(),
+        temp: x.temp,
+      };
+    });
+  }
 
   useEffect(() => {
-    async function fetchTemp () {
-        let response = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?id=${cityId}&appid=ef4f4c72ceb5584c55e8641bb4f3f63e&units=metric`);
-        console.log(response);
-      }
-    
-      fetchTemp();
-  },[]);
+    async function fetchTemp() {
+      let response = await axios.get(
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&appid=ef4f4c72ceb5584c55e8641bb4f3f63e&units=metric`
+      );
 
-    return (
-        <LineChart
-          width={500}
-          height={300}
-          data={data}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-          <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-        </LineChart>
-    );
+      let result = mapResultName(getToday(mapToData(response.data.hourly)));
+      setData(result);
+    }
+
+    fetchTemp();
+  }, []);
+
+  return (
+    <LineChart
+      width={500}
+      height={300}
+      data={data}
+      margin={{
+        top: 5,
+        right: 30,
+        left: 20,
+        bottom: 5,
+      }}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Line type="monotone" dataKey="temp" stroke="#82ca9d" />
+    </LineChart>
+  );
 }

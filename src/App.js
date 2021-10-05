@@ -2,17 +2,21 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 
-const App = ({cityId, setCityId}) => {
+const App = ({cityId, setCityId, setCoord}) => {
   const cityMap = [
-    {key: "Минске", value: 625144},
-    {key: "Москве", value: 524901},
-    {key: "Киеве", value: 703448},
+    {key: "Минске", value: 625144, coord: {lat: 53.9, lon: 27.5667}},
+    {key: "Москве", value: 524901, coord: {lat: 55.7522, lon: 37.6156}},
+    {key: "Киеве", value: 703448, coord: {lat: 50.4333, lon: 30.5167}},
   ];
   const [value, setValue] = useState(cityMap.find(x => x.value === cityId).key);
   const [currectTemp, setCurrentTemp] = useState(null);
 
   const getSelectedCityId = (value) => {
     return cityMap.find(x => x.key === value).value;
+  }
+
+  const getSelectedCoord = (value) => {
+    return cityMap.find(x => x.key === value).coord;
   }
 
   useEffect(()=> {
@@ -40,6 +44,7 @@ const App = ({cityId, setCityId}) => {
         <select value={value} onChange={(event) => {
           setValue(event.target.value);
           setCityId(getSelectedCityId(event.target.value));
+          setCoord(getSelectedCoord(event.target.value));
           }}>
           <option value="Москве">Москва</option>
           <option value="Минске">Минск</option>

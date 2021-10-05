@@ -7,9 +7,12 @@ import {
 } from "react-router-dom";
 import App from "./App";
 import WeatherTomorrow from "./WeatherTomorrow";
+import Weather from "./Weather";
 
 export default function Navigation() {
   const [currentCityId, setCurrentCityId] = useState(625144);
+  const [currentCoord, setCurrentCoord] = useState({lat: 53.9, lon: 27.5667});
+
   return (
     <Router>
       <div>
@@ -19,16 +22,16 @@ export default function Navigation() {
               <Link to="/">Сегодня</Link>
             </li>
             <li>
-              <Link to="/tomorrow">Следующие три дня</Link>
+              <Link to="/tomorrow">Почасовой прогноз и cледующие три дня</Link>
             </li>
           </ul>
         </nav>
         <Switch>
           <Route path="/" exact={true}>
-            <App setCityId={setCurrentCityId}  cityId={currentCityId}/>
+            <App setCityId={setCurrentCityId}  cityId={currentCityId} setCoord={setCurrentCoord}/>
           </Route>
           <Route path="/tomorrow">
-            <WeatherTomorrow cityId={currentCityId}/>
+            <Weather cityId={currentCityId} coord={currentCoord}/>
           </Route>
         </Switch>
       </div>
