@@ -32,15 +32,15 @@ const App = ({cityId, setCityId, setCoord}) => {
 
   return (
     <div className="App">
-      <div className="wrapp">
-      <div className="card-date"> Сегодня 
+      <div className="wrap">
+      <div className="card-date"> Сегодня:&#160;   
               {new Date().toLocaleString("ru", {
                 year: "numeric",
                 month: "numeric",
                 day: "numeric",
               })}
             </div>
-            <label> Выберите город:
+            <label className="list"> Выберите город:&#160;
         <select value={value} onChange={(event) => {
           setValue(event.target.value);
           setCityId(getSelectedCityId(event.target.value));

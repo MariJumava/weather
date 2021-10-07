@@ -81,11 +81,12 @@ export default function WeatherThteeDays({ cityId, coord }) {
   useEffect(() => {
     async function fetchTemp() {
       let response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${coord.lat}&lon=${coord.lon}&cnt=3&appid=ef4f4c72ceb5584c55e8641bb4f3f63e&units=metric`
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&appid=ef4f4c72ceb5584c55e8641bb4f3f63e&units=metric`
       );
-
-     //let result = mapResultName(mapToData(response.data.daily));
-      //setData(result);
+      console.log(response)
+     let result = mapResultName(mapToData(response.data.hourly));
+      setData(result);
+      
     }
 
     fetchTemp();

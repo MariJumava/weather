@@ -111,7 +111,7 @@ export default function WeatherTomorrow({ cityId, coord }) {
       <YAxis />
       <Tooltip />
       <Legend />
-      <Line type="monotone" dataKey="temp" stroke="#82ca9d" />
+      <Line type="monotone" dataKey="temp" stroke="#BDC5D4" />
     </LineChart>
   );
 }

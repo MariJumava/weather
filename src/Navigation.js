@@ -15,7 +15,7 @@ export default function Navigation() {
   return (
     <Router>
       <div>
-      <nav>
+      <nav className="navigation">
           <ul>
             <li>
               <Link to="/">Сегодня</Link>
