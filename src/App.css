@@ -3,7 +3,7 @@
 }
 
 #root {
-  height: 700px;
+  height: 1000px;
   background-image: url(./clouds-g7933a6c7f_1920.jpg);
 }  
 
@@ -47,5 +47,9 @@
 }
 
 .navigation {
+  display: flex;
+}
+
+.weather{
   display: flex;
 }

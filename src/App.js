@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import './App.css';
 
@@ -11,9 +11,10 @@ const App = ({cityId, setCityId, setCoord}) => {
   const [value, setValue] = useState(cityMap.find(x => x.value === cityId).key);
   const [currentTemp, setCurrentTemp] = useState(null);
 
-  const getSelectedCityId = (value) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const getSelectedCityId = useCallback((value) => {
     return cityMap.find(x => x.key === value).value;
-  }
+  })
 
   const getSelectedCoord = (value) => {
     return cityMap.find(x => x.key === value).coord;
@@ -28,7 +29,7 @@ const App = ({cityId, setCityId, setCoord}) => {
 
       fetchTemp();
 
-  }, [value]);
+  }, [getSelectedCityId, value]);
 
   return (
     <div className="App">

@@ -9,56 +9,10 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Page C",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
 
-export default function WeatherThteeDays({ cityId, coord }) {
-  const demoUrl = `https://api.openweathermap.org/data/2.5/weather?id=${cityId}&appid=ef4f4c72ceb5584c55e8641bb4f3f63e`;
+export default function WeatherThteeDays({ coord }) {
   const [data, setData] = useState([]);
 
   function mapToData(list) {
@@ -73,7 +27,7 @@ export default function WeatherThteeDays({ cityId, coord }) {
   function mapResultName(data) {
     return data.map((x) => {
       return {
-        name: x.name.toLocaleTimeString(),
+        name: x.name,
         temp: x.temp,
       };
     });
@@ -83,36 +37,34 @@ export default function WeatherThteeDays({ cityId, coord }) {
       let response = await axios.get(
         `https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&appid=ef4f4c72ceb5584c55e8641bb4f3f63e&units=metric`
       );
-      console.log(response)
      let result = mapResultName(mapToData(response.data.hourly));
       setData(result);
       
     }
 
     fetchTemp();
-  }, []);
+  }, [coord.lat, coord.lon]);
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <BarChart
+    <BarChart
         width={500}
         height={300}
         data={data}
         margin={{
-          top: 5,
+          top: 20,
           right: 30,
           left: 20,
           bottom: 5,
         }}
-      >
+    >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
-        <YAxis />
+        <YAxis yAxisId="left" orientation="left" stroke="#BDC5D4" />
+        <YAxis yAxisId="right" orientation="right" stroke="#242424" />
         <Tooltip />
         <Legend />
-        <Bar dataKey="name" fill="#8884d8" />
-        <Bar dataKey="name" fill="#82ca9d" />
-      </BarChart>
-    </ResponsiveContainer>
+        <Bar yAxisId="left" dataKey="temp" fill="#BDC5D4" />
+        <Bar yAxisId="right" dataKey="temp" fill="#242424" />
+    </BarChart>
   );
 }
